@@ -2,6 +2,7 @@
 const itemForm = document.querySelector("#item-form");
 const itemInput = document.getElementById("item-input");
 const itemList = document.getElementById("item-list");
+const btnClear = document.querySelector("#clear");
 
 // Function to create a button with the passed class
 function createButton(classes) {
@@ -42,5 +43,21 @@ function addItem(e) {
   itemInput.value = "";
 }
 
+// function to remove an item from the list
+function deleteItem(e) {
+  if (e.target.parentElement.classList.contains("remove-item")) {
+    e.target.parentElement.parentElement.remove();
+  }
+}
+
+// function to delete all items from the list
+function deleteAllItems() {
+  while (itemList.firstChild) {
+    itemList.removeChild(itemList.firstChild);
+  }
+}
+
 // Event Listeners
 itemForm.addEventListener("submit", addItem);
+itemList.addEventListener("click", deleteItem);
+btnClear.addEventListener("click", deleteAllItems);
