@@ -43,7 +43,13 @@ function onAddItemSubmit(e) {
 
   // check for edit mode
   if (isEditMode) {
+    const oldItem = document.querySelector(".edit-mode").firstChild.textContent;
     const itemToEdit = itemList.querySelector(".edit-mode");
+
+    if (newItem !== oldItem && checkIfItemExists(newItem)) {
+      alert(`You already have that item`);
+      return;
+    }
     removeItemFromStorage(itemToEdit.textContent);
     itemToEdit.classList.remove("edit-mode");
     itemToEdit.remove();
@@ -51,6 +57,7 @@ function onAddItemSubmit(e) {
   } else {
     if (checkIfItemExists(newItem)) {
       alert("That item already exists!");
+      itemInput.value = "";
       return;
     }
   }
@@ -66,7 +73,8 @@ function onAddItemSubmit(e) {
 
 function checkIfItemExists(item) {
   const itemsFromStorage = getItemsFromStorage();
-  return itemsFromStorage.includes(item);
+  const itemsLowerCase = itemsFromStorage.map((str) => str.toLowerCase());
+  return itemsLowerCase.includes(item.toLowerCase());
 }
 
 function addItemToDom(item) {
